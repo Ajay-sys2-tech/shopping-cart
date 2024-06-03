@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import sq from './db/conn.js';
+import sq from '../db/conn.js';
 
 const User = sq.define(
     'User',
@@ -11,6 +11,7 @@ const User = sq.define(
         },
         email: {
             type: DataTypes.STRING,
+            isEmail: true,  
             allowNull: false,
         },
         password: {
@@ -20,7 +21,8 @@ const User = sq.define(
     },
   );
 
-  await User.sync(() => console.log('User table synced'));
+  await User.sync();
+  console.log('User table synced')
 
 
 export default User;

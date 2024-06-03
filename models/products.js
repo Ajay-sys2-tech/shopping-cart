@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import sq from './db/conn.js';
+import sq from '../db/conn.js';
 
 const Product = sq.define(
     'Product',
@@ -28,7 +28,7 @@ const Product = sq.define(
     },
   );
 
-  await Product.sync(() => console.log('Product table synced'));
-
+await Product.sync();
+console.log('Product table synced');
 
 export default Product;
