@@ -2,9 +2,8 @@ import { getUser, createUser } from "../repository/userRepo.js";
 import bcrypt from 'bcrypt';
 
 export const registerUser = async (user) => {
-    const { email, password } = user;
-
     try {
+      const { email, password } = user;
       // Check if the user with the given email already exists
       const existingUser = await getUser(email);
       // console.log(existingUser);

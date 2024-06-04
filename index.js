@@ -1,5 +1,6 @@
 import express from "express"; 
 import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import bodyParser from 'body-parser';
@@ -18,6 +19,7 @@ app.get('/home', (req, res) => {
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
+app.use("/admin", adminRoutes);
 
 
 

@@ -6,6 +6,17 @@ export const getUser = async ( email ) => {
         return user;
     } catch (error) {
         console.log(error);
+        //throw error
+    }
+};
+
+
+export const getUserById = async ( id ) => {
+    try {
+        const user = await User.findOne({ where: { id } });
+        return user;
+    } catch (error) {
+        console.log(error);
     }
 };
 
@@ -17,5 +28,13 @@ export const createUser = async (user) => {
     } catch (error) {
         console.log(error);
     }
+};
 
+export const getAdminUser = async ( ) => {
+    try {
+        const admin = await User.findOne({ where: { isAdmin: true } });
+        return admin;
+    } catch (error) {
+        console.log(error);
+    }
 }

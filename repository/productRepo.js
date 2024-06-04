@@ -13,7 +13,9 @@ export const getProduct = async ( id ) => {
 export const getAllProducts = async () => {
     try {
         const products = await Product.findAll();
-        return products;
+        return products.map((product) => {
+            return product.dataValues;
+        });
     } catch (error) {
         console.log(error);
     }
@@ -32,9 +34,15 @@ export const createProduct = async (product) => {
 
 
 
-export const updateProduct = async (id) => {
+export const updateProduct = async (productIdToUpdate, updatedValues) => {
     try {
-        
+        const updatedProduct = await Product.update(updatedValues, {
+            where: {
+              id: productIdToUpdate
+            }
+          });
+
+          return updatedProduct;
     } catch (error) {
         console.log(error);
     }
@@ -42,11 +50,19 @@ export const updateProduct = async (id) => {
 };
 
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (productIdToDelete) => {
     try {
-        
+        const deletedProduct = await Product.destroy({
+            where: {
+              id: productIdToDelete
+            }
+        });
+
+        return deletedProduct;
+      
     } catch (error) {
         console.log(error);
     }
 
 }
+

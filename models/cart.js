@@ -25,6 +25,8 @@ const Cart = sq.define(
     },
   );
 
+//TODO: make pId and userId as forign key
+
 await Cart.sync();
 console.log('Cart table synced');
 
