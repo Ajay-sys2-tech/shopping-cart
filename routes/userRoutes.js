@@ -69,4 +69,7 @@ router.post("/login", emailPasswordValidator, async (req, res) => {
     }
 });
 
+router.get('/*', (req, res) => {
+    res.send("Page not Found!");
+});
 export default router;

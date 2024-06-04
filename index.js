@@ -12,15 +12,18 @@ const PORT = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     res.send("Welcome Home!");
-})
+});
 
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
 app.use("/admin", adminRoutes);
 
+app.get('/*', (req, res) => {
+    res.send("Page not Found!");
+})
 
 
 

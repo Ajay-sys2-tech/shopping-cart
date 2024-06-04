@@ -105,4 +105,9 @@ router.delete("/:cartItemId", verifyUser, async (req, res) => {
     }
 });
 
+
+router.get('/*', (req, res) => {
+    res.send("Page not Found!");
+});
+
 export default router;
