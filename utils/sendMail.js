@@ -19,7 +19,6 @@ const transporter = nodemailer.createTransport({
   };
 
 export const sendMail = (receiver) => {
-
     mailOptions.to = receiver;
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -31,5 +30,5 @@ export const sendMail = (receiver) => {
     });
 }
 
-sendMail('kkujjawal2002@gmail.com');
+
   

@@ -4,7 +4,7 @@ import { addToCart as addToCartRepo,
          removeFromCart as removeFromCartRepo,
          checkOut as checkOutRepo
  } from "../repository/cartRepo.js";
-
+import { sendMail } from "../utils/sendMail.js";
 
  export const getCartitems = async (userId) => {
     try {
@@ -40,9 +40,10 @@ import { addToCart as addToCartRepo,
     }
  }
 
- export const checkOut = async ( userId ) => {
+ export const checkOut = async ( userId, userEmail ) => {
     try {
         const checkedOut = await checkOutRepo( userId);
+        if(checkedOut > 0) sendMail(userEmail);
         return checkedOut ;
     } catch (error) {
         console.log(error)

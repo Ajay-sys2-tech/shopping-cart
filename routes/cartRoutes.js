@@ -5,15 +5,14 @@ import { verifyUser } from '../middlewares/userAuth.js';
 const router = express.Router();
 
 router.get("/", verifyUser, async (req, res) => {
-    // const userId = 1;
-    const userId = req.user.id;
-
-    if(!userId){
-        res.status(401).json({error: "Unauthorised"});
-        return;
-    }
-
+    
     try {
+        const userId = req.user.id;
+        if(!userId){
+            res.status(401).json({error: "Unauthorised"});
+            return;
+        }
+
         const cartItems = await getCartitems(userId);
         if(cartItems.length == 0){
              res.status(404).json({error: "No products found in your cart."});
@@ -30,15 +29,14 @@ router.get("/", verifyUser, async (req, res) => {
 
 
 router.post("/", verifyUser, async (req, res) => {
-    const userId = 1;
-    // const userId = req.user.id;
-
-    // if(!userId){
-    //     res.status(401).json({error: "Unauthorised"});
-    //     return;
-    // }
-
+    
     try {
+        const userId = req.user.id;
+        if(!userId){
+            res.status(401).json({error: "Unauthorised"});
+            return;
+        }
+
         const { productId, quantity } = req.body;
         const addedItemInCart = await addToCart({ userId, productId, quantity});
 
@@ -63,16 +61,15 @@ router.patch("/:productId", (req, res) => {
 
 
 router.delete("/checkout", verifyUser, async (req, res) => {
-    const userId = 1;
-    // const userId = req.user.id;
-
-    // if(!userId){
-    //     res.status(401).json({error: "Unauthorised"});
-    //     return;
-    // }
-
+   
     try {
-        const checkedOut = await checkOut( userId );
+        const userId = req.user.id;
+        if(!userId){
+            res.status(401).json({error: "Unauthorised"});
+            return;
+        }
+
+        const checkedOut = await checkOut( userId, req.user.email );
         if(checkedOut > 0){
             res.status(200).json({message: "Order placed successfully"});
         }
