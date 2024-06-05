@@ -23,7 +23,7 @@ router.post("/register", emailPasswordValidator, async (req, res) => {
         const admin = await registerAdmin({email, password, isAdmin: true});
     
         if(admin.error) {
-            res.status(400).json(admin);
+            res.status(400).json({error: admin.error});
         }
 
         else{

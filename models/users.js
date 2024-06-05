@@ -22,6 +22,26 @@ const User = sq.define(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
+        },
+
+        phone: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+
+        city: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+
+        state: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+
+        pinCode: {
+            type: DataTypes.INTEGER,
+            allowNull: true
         }
     },
   );

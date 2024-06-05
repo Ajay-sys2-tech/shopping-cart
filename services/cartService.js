@@ -4,6 +4,7 @@ import { addToCart as addToCartRepo,
          removeFromCart as removeFromCartRepo,
          checkOut as checkOutRepo
  } from "../repository/cartRepo.js";
+ import { getProduct as getProductRepo } from '../repository/productRepo.js';
 import { sendMail } from "../utils/sendMail.js";
 
  export const getCartitems = async (userId) => {
@@ -17,7 +18,14 @@ import { sendMail } from "../utils/sendMail.js";
 
  export const addToCart = async ( productToBeAdded ) => {
     try {
+        const productExist = await getProductRepo(productToBeAdded.productId);
+        if(!productExist){
+            return ({error: "Product not found"});
+        }
         const addedToCart = await addToCartRepo(productToBeAdded);
+        if(addedToCart.error){
+            return ({error: 'Product not found'});
+        }
         return addedToCart;
     } catch (error) {
         console.log(error);

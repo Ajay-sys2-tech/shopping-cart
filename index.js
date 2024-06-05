@@ -3,6 +3,7 @@ import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
+import checkOutRoutes from "./routes/checkOutRoutes.js";
 import bodyParser from 'body-parser';
 
 import './db/conn.js';
@@ -20,6 +21,7 @@ app.use("/user", userRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
 app.use("/admin", adminRoutes);
+app.use("/checkOut", checkOutRoutes);
 
 app.get('/*', (req, res) => {
     res.send("Page not Found!");

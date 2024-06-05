@@ -1,4 +1,6 @@
 import Cart from '../models/cart.js';
+import Product from '../models/products.js';
+import { getProduct } from './productRepo.js';
 
 export const getCartItems = async (userId) => {
     try {

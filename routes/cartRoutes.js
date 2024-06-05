@@ -38,14 +38,15 @@ router.post("/", verifyUser, async (req, res) => {
         }
 
         const { productId, quantity } = req.body;
+        
         const addedItemInCart = await addToCart({ userId, productId, quantity});
 
-        if( addedItemInCart ){
-            res.status(201).json({message: 'Product added to cart successfully'});
+        if(addedItemInCart.error){
+            res.status(400).json({error: 'Product not found'});
         }
 
-        else {
-            res.status(400).json({error: "Product not added to cart, please try again"});
+        else{
+            res.status(201).json({message: 'Product added to cart successfully'});
         }
 
     } catch (error) {

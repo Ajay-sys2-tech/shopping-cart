@@ -20,6 +20,7 @@ router.post("/register", emailPasswordValidator, async (req, res) => {
         const { email, password, confirmPassword } = req.body;
         if(password !== confirmPassword) {
             res.status(400).json({ error: 'Password and Confirm password should match!' });
+            return;
         }
 
         const user = await registerUser({email, password});

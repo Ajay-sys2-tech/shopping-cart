@@ -13,6 +13,6 @@ const checkConnection = async () => {
     }
 }
 
-checkConnection();
+await checkConnection();
 
 export default sq;
