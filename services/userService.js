@@ -1,4 +1,4 @@
-import { getUser, createUser } from "../repository/userRepo.js";
+import { getUser, createUser, getUserByToken } from "../repository/userRepo.js";
 import bcrypt from 'bcrypt';
 
 export const registerUser = async (user) => {
@@ -47,4 +47,15 @@ export const loginUser = async ( user ) => {
       console.error('Error in loginUser:', error);
       throw error;
     }
+}
+
+export const isLoggedIn = async (token) => {
+  try {
+    const userFound = getUserByToken(token);
+
+    if(userFound)return true;
+    return false;
+  } catch (error) {
+    
+  }
 }

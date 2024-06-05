@@ -1,4 +1,6 @@
 import User from '../models/users.js';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 export const getUser = async ( email ) => {
     try {
@@ -6,7 +8,7 @@ export const getUser = async ( email ) => {
         return user;
     } catch (error) {
         console.log(error);
-        //throw error
+        throw error;
     }
 };
 
@@ -17,6 +19,7 @@ export const getUserById = async ( id ) => {
         return user;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 };
 
@@ -27,6 +30,7 @@ export const createUser = async (user) => {
         return newUser.dataValues;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 };
 
@@ -36,5 +40,18 @@ export const getAdminUser = async ( ) => {
         return admin;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 }
+
+export const getUserByToken = async (token) => {
+    try {
+        const decode = jwt.verify(token, process.env.JWT_USER_SECRET);
+        const userFound = await User.findOne({ where: {id: decode.id, token}});
+        return userFound;
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
