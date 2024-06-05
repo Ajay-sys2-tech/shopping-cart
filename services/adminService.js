@@ -7,7 +7,6 @@ export const registerAdmin = async (admin) => {
     try {
       // Check if the user with the given email already exists
       const existingAdmin = await getAdminUser();
-      // console.log(existingUser);
   
       if (existingAdmin) {
         return ({ error: 'Admin already exists, cannot create more than one'});

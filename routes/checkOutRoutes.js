@@ -1,11 +1,10 @@
 import express from 'express';
 import { addAddress, getAddress, checkOut } from '../services/checkOutService.js';
-import { emailPasswordValidator } from '../middlewares/validators.js';
+import { addressValidator } from '../middlewares/validators.js';
 import {validationResult} from 'express-validator';
 import { verifyUser } from '../middlewares/userAuth.js';
 
 const router = express.Router();
-
 
 router.get("/", verifyUser, async (req, res) => {
     try {
@@ -30,7 +29,13 @@ router.get("/", verifyUser, async (req, res) => {
 });
 
 
-router.post("/", verifyUser, async (req, res) => {
+router.post("/", addressValidator, verifyUser, async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.status(422).json({errors: errors.array()});
+        return;
+    }
+    
     try {
         const userId = req.user.id;
         if(!userId){
@@ -38,9 +43,7 @@ router.post("/", verifyUser, async (req, res) => {
             return;
         }
         const { city, state, pinCode, phone } = req.body;
-
         const newAddress = await addAddress(userId, { city, state, pinCode, phone });
-        console.log(newAddress);
         if(newAddress){
             res.status(200).json({message: 'Address added succesfully'});
         }

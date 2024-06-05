@@ -1,8 +1,10 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import { registerUser, loginUser } from '../services/userService.js';
+import { registerUser, loginUser, isLoggedIn } from '../services/userService.js';
 import { emailPasswordValidator } from '../middlewares/validators.js';
-import {validationResult} from 'express-validator'
+import {validationResult} from 'express-validator';
+import { createUserToken, deleteUserToken } from '../utils/tokenUtils.js';
+import { verifyUser } from '../middlewares/userAuth.js';
 
 
 
@@ -47,28 +49,37 @@ router.post("/login", emailPasswordValidator, async (req, res) => {
     }
     
     try {
+        const token = req.cookies.user_token;
         const { email, password } = req.body;
+
+        if(token && isLoggedIn(token, email)){
+            return res.status(400).json({error: 'User already logged in or illegal token'});
+        }
         const loggedInUser = await loginUser({email, password});
         
         if(loggedInUser.error) {
-            res.status(400).json(loggedInUser);
+            res.status(400).json({error: loggedInUser.error});
         }
 
         else{
-            const token = jwt.sign({
-                id: loggedInUser.id,
-                email: loggedInUser.email,
-            }, process.env.JWT_USER_SECRET);
-            console.log(token);
-            res.status(200).json({
-                token: token,
+            const token = await createUserToken(loggedInUser);
+    
+            res.status(200).cookie('user_token', token).json({
                 message: `Welcome ${loggedInUser.email}`
             });
         }
     } catch (error) {
         console.log(error);
+        res.status(400).json({error: 'Unexpected error'});
     }
 });
+
+
+router.get("/logout", verifyUser, async (req, res) => {
+    await deleteUserToken(req.user.id);
+    return res.clearCookie("user_token").status(200).json({message: 'User logged out'});
+});
+
 
 router.get('/*', (req, res) => {
     res.send("Page not Found!");

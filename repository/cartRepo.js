@@ -5,7 +5,6 @@ import { getProduct } from './productRepo.js';
 export const getCartItems = async (userId) => {
     try {
         const cartItems = await Cart.findAll({ where: { userId } });
-        console.log(cartItems);
         return cartItems;
     } catch (error) {
         console.log(error);

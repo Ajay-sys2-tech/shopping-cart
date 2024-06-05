@@ -49,13 +49,17 @@ export const loginUser = async ( user ) => {
     }
 }
 
-export const isLoggedIn = async (token) => {
+export const isLoggedIn = async (token, email) => {
   try {
-    const userFound = getUserByToken(token);
-
-    if(userFound)return true;
+    const userFound = await getUserByToken(token, email);
+    // if(userFound.error){
+    //   return userFound;
+    // }
+    if(userFound.error || userFound !== null )return true;
     return false;
   } catch (error) {
-    
+    console.log(error);
+    throw error;
   }
 }
+

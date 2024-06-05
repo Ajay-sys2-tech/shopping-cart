@@ -44,12 +44,34 @@ export const getAdminUser = async ( ) => {
     }
 }
 
-export const getUserByToken = async (token) => {
+export const saveToken = async (id, token) => {
+    try {
+        const tokenSaved = await User.update({ token }, { where: { id } });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+export const deleteToken = async (id) => {
+    try {
+        const tokenDeleted = await User.update({ token: null }, { where: { id } });
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+    
+}
+
+export const getUserByToken = async (token, email) => {
     try {
         const decode = jwt.verify(token, process.env.JWT_USER_SECRET);
-        const userFound = await User.findOne({ where: {id: decode.id, token}});
+        if(decode.email !== email){
+            return ({error: 'Invalid token'});
+        }
+        
+        const userFound = await User.findOne({ where: {id: decode.id, token, email}});
         return userFound;
-
     } catch (error) {
         console.log(error);
         throw error;

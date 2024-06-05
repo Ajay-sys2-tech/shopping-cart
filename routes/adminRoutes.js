@@ -2,7 +2,9 @@ import express from 'express';
 import { registerAdmin, loginAdmin } from '../services/adminService.js';
 import jwt from 'jsonwebtoken';
 import { emailPasswordValidator } from '../middlewares/validators.js';
-import {validationResult} from 'express-validator'
+import {validationResult} from 'express-validator';
+import { createAdminToken, deleteAdminToken } from '../utils/tokenUtils.js';
+import { verifyAdmin } from '../middlewares/adminAuth.js';
 
 
 const router = express.Router();
@@ -17,7 +19,7 @@ router.post("/register", emailPasswordValidator, async (req, res) => {
     try {
         const { email, password, confirmPassword } = req.body;
         if(password !== confirmPassword) {
-            res.status(400).json({ error: 'Password and Confirm password should match!' });
+            return res.status(400).json({ error: 'Password and Confirm password should match!' });
         }
 
         const admin = await registerAdmin({email, password, isAdmin: true});
@@ -32,6 +34,7 @@ router.post("/register", emailPasswordValidator, async (req, res) => {
         
     } catch (error) {
         console.log(error);
+        res.status(400).json({error: 'Unexpected error'});
     }
 });
 
@@ -43,6 +46,10 @@ router.post("/login", emailPasswordValidator, async (req, res) => {
     }
 
     try {
+        const token = req.cookies.admin_token;
+        if(token && isLoggedIn(token)){
+            return res.status(400).json({error: 'Already logged in!'});
+        }
         const { email, password } = req.body;
         const loggedInAdmin = await loginAdmin({email, password});
         
@@ -51,20 +58,23 @@ router.post("/login", emailPasswordValidator, async (req, res) => {
         }
 
         else{
-            const token = jwt.sign({
-                id: loggedInAdmin.id,
-                email: loggedInAdmin.email,
-            }, process.env.JWT_ADMIN_SECRET);
-            console.log(token);
-            res.status(200).json({
-                token: token,
+            const token = await createAdminToken(loggedInAdmin);
+            res.status(200).cookie('admin_token', token).json({
                 message: `Welcome ${loggedInAdmin.email}`
             });
         }
     } catch (error) {
         console.log(error);
+        res.status(400).json({error: 'Unexpected error'});
     }
 });
+
+
+router.get("/logout", verifyAdmin, async (req, res) => {
+    await deleteAdminToken(req.admin.id);
+    return res.clearCookie("admin_token").status(200).json({message: 'Admin logged out'});
+});
+
 
 
 router.get('/*', (req, res) => {

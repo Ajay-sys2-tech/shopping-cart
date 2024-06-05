@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sq from '../db/conn.js';
+// import Cart from './cart.js'
 
 const User = sq.define(
     'User',
@@ -42,12 +43,17 @@ const User = sq.define(
         pinCode: {
             type: DataTypes.INTEGER,
             allowNull: true
+        },
+
+        token: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     },
   );
 
   await User.sync();
   console.log('User table synced')
-
+//   User.hasMany(Cart, { foreignKey: 'userId' });
 
 export default User;

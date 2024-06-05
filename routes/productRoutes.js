@@ -10,7 +10,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         const products = await getAllProducts();
-        console.log(products);
         if( products.length == 0)
             res.status(404).json({error: "No products found"});
         else{

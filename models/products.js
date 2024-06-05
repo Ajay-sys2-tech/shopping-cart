@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sq from '../db/conn.js';
+// import Cart from './cart.js';
 
 const Product = sq.define(
     'Product',
@@ -30,5 +31,5 @@ const Product = sq.define(
 
 await Product.sync();
 console.log('Product table synced');
-
+// Product.hasMany(Cart, { foreignKey: 'productId' });
 export default Product;

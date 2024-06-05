@@ -40,8 +40,6 @@ export const checkOut = async (userId) => {
             }
         });
 
-        console.log(cartCheckedOut);
-
         return cartCheckedOut;
     } catch (error) {
         console.log(error);

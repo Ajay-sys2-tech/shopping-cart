@@ -3,8 +3,9 @@ import { getAdminUser } from '../repository/userRepo.js';
 import 'dotenv/config';
 
 export const verifyAdmin = async (req, res, next) => {
-    const {authorization} = req.headers;
-    const token = authorization?.split(" ")[1];
+    // const {authorization} = req.headers;
+    // const token = authorization?.split(" ")[1];
+    const token = req.cookies.admin_token;
 
     if (!token) {
         res.status(401).json({error: 'You are not authorized'});
