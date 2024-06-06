@@ -2,6 +2,8 @@
 
 # live url: https://shopping-cart-qkas.onrender.com
 
+Please check the master branch in case you don't find anything here.
+
 POST  /user/register  ---> for user registration <br /> 
 POST  /user/login  ---> for user login <br /> 
 
