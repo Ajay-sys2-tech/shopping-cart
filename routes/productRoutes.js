@@ -2,7 +2,7 @@ import express from 'express';
 import { getProduct, getAllProducts, createProduct, updateProduct, deleteProduct } from '../services/productService.js';
 import { verifyAdmin } from '../middlewares/adminAuth.js';
 import { createProductValidator } from '../middlewares/validators.js';
-import {validationResult} from 'express-validator'
+import {validationResult} from 'express-validator';
 
 const router = express.Router();
 

@@ -18,6 +18,13 @@ export const emailPasswordValidator = [
 
 
   
+  export const createCartValidator = [
+    body('productId', 'Product Id can not be Empty and should be a valid number').not().isEmpty().isNumeric(),
+    body('quantity', 'Quantity can not be Empty and should be a valid number').not().isEmpty().isNumeric(),
+  ];
+
+
+  
   export const addressValidator = [
     body('city', 'City can not be Empty, and should be more than 2 characters long').not().isEmpty().isLength({min: 3}),
     body('state', 'State can not be Empty and should be more than 2 characters long').not().isEmpty().isLength({min: 3}),
