@@ -20,38 +20,17 @@ describe(' GET /Products API', () => {
 });
 
 
-describe('POST /products', () => {
-    it('it should POST a product', (done) => {
-        let product = {
-            title: "Boat Earbuds",
-            description: "Premium quality earbuds",
-            price: 999,
-            imageUrl: "www.boat.com"
-        }
-      chai.request(server)
-          .post('/products')
-          .send(product)
-          .end((err, res) => {
-                res.should.have.status(201);
-                res.body.should.be.a('object');
-                res.body.should.have.property('message');
-            done();
-          });
-    });
-
-});
-
-
-// describe('POST /user/register', () => {
-//     it('it should POST an user', (done) => {
-//         let user = {
-//             email: "test8@gmail.com",
-//             password: "123456",
-//             confirmPassword: "123456"
+// describe('POST /products', () => {
+//     it('it should POST a product', (done) => {
+//         let product = {
+//             title: "Boat Earbuds",
+//             description: "Premium quality earbuds",
+//             price: 999,
+//             imageUrl: "www.boat.com"
 //         }
 //       chai.request(server)
-//           .post('/user/register')
-//           .send(user)
+//           .post('/products')
+//           .send(product)
 //           .end((err, res) => {
 //                 res.should.have.status(201);
 //                 res.body.should.be.a('object');
@@ -61,6 +40,27 @@ describe('POST /products', () => {
 //     });
 
 // });
+
+
+describe('POST /user/register', () => {
+    it('it should POST an user', (done) => {
+        let user = {
+            email: "test10@gmail.com",
+            password: "123456",
+            confirmPassword: "123456"
+        }
+      chai.request(server)
+          .post('/user/register')
+          .send(user)
+          .end((err, res) => {
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('message');
+            done();
+          });
+    });
+
+});
 
 
 

@@ -53,7 +53,5 @@ const User = sq.define(
   );
 
   await User.sync();
-  console.log('User table synced')
-//   User.hasMany(Cart, { foreignKey: 'userId' });
 
 export default User;
