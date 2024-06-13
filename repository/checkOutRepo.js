@@ -20,7 +20,7 @@ export const addAddress = async (userId, address) => {
             {city, state, pinCode, phone}, {
                 where: {
                     id: userId
-                  }
+                }
             }
 
          );

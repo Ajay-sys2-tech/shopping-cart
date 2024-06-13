@@ -67,6 +67,10 @@ router.delete("/", verifyUser, async (req, res) => {
         }
 
         const checkedOut = await checkOut( userId, req.user.email );
+        if(checkedOut.error){
+            res.status(400).json({error: "Please add the address"});
+            return;
+        }
         if(checkedOut > 0){
             res.status(200).json({message: "Order placed successfully"});
         }

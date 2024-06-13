@@ -26,6 +26,11 @@ export const getAddress = async (userId) => {
 
 export const checkOut = async ( userId, userEmail ) => {
     try {
+        const userAddress = await getAddress(userId);
+        const {city, state, pinCode, phone } = userAddress;
+        if(city === null || state === null || pinCode === null || phone === null){
+            return ({error: "Please add the address"});
+        }
         const checkedOut = await checkOutRepo( userId);
         if(checkedOut > 0) {
             sendMail(userEmail);
