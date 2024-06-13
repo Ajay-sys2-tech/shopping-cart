@@ -1,6 +1,8 @@
 import express from 'express';
 import { getCartitems, addToCart, removeFromCart, checkOut } from '../services/cartService.js';
 import { verifyUser } from '../middlewares/userAuth.js';
+import { createCartValidator } from '../middlewares/validators.js'
+import {validationResult} from 'express-validator';
 
 const router = express.Router();
 
@@ -28,7 +30,12 @@ router.get("/", verifyUser, async (req, res) => {
 });
 
 
-router.post("/", verifyUser, async (req, res) => {
+router.post("/", createCartValidator, verifyUser, async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.status(422).json({errors: errors.array()})
+        return;
+    }
     
     try {
         const userId = req.user.id;
@@ -38,6 +45,11 @@ router.post("/", verifyUser, async (req, res) => {
         }
 
         const { productId, quantity } = req.body;
+        console.log(productId);
+        if((!(productId || quantity ))|| quantity < 1){
+            res.status(400).json({error: 'No product or quantity selected'});
+            return;
+        }
         
         const addedItemInCart = await addToCart({ userId, productId, quantity});
 
